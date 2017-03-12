@@ -9,8 +9,7 @@ if [[ -e $IMG ]]; then
   fsck -f /dev/loop1
   resize2fs -M /dev/loop1 # Make the filesystem as small as possible
   fsck -f /dev/loop1
-  P_NEWSIZE=$( dumpe2fs /dev/loop1 2>/dev/null | grep '^Block count:' | 
-awk '{print $3}' ) # In 4k blocks
+  P_NEWSIZE=$( dumpe2fs /dev/loop1 2>/dev/null | grep '^Block count:' | awk '{print $3}' ) # In 4k blocks
   P_NEWEND=$(( $P_START + ($P_NEWSIZE * 8) + 1 )) # in 512 byte sectors
   losetup -d /dev/loop1
   echo -e "p\nd\n1\nn\np\n1\n$P_START\n$P_NEWEND\np\nW\n" | fdisk $IMG
